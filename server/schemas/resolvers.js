@@ -13,11 +13,20 @@ const resolvers = {
             }
             throw new AuthenticationError('Please log in');
         },
+        users: async () => {
+            return User.find()
+                .select('-__v -password')
+        }
     },
     
     Mutation: {
+
         addUser: async (parent, args) => {
-            const user = await User.create(args);
+            console.log("hello")
+            let user;
+        try {  user = await User.create(args);}
+        catch(e) {console.log(e)}
+        console.log(user)
             const token = signToken(user);
 
             return { token, user };
