@@ -6,6 +6,7 @@ import Auth from '../utils/auth';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { removeBookId } from '../utils/localStorage';
+import { REMOVE_BOOK } from '../utils/mutations';
 
 
 const SavedBooks = () => {
@@ -29,6 +30,10 @@ const SavedBooks = () => {
       console.error(err);
     }
   };
+
+  if (loading) {
+    return <h2>LOADING.....</h2>
+  }
 
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
@@ -83,9 +88,6 @@ const SavedBooks = () => {
   // };
 
   // if data isn't here yet, say so
-  if (loading) {
-    return <h2>LOADING...</h2>;
-  }
 
   return (
     <>
