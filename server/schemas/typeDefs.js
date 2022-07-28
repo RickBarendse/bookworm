@@ -16,6 +16,8 @@ const typeDefs = gql`
         authors: [String]
         description: String
         title: String
+        image: String
+        link: String
     }
 
     type Auth {
@@ -28,6 +30,8 @@ const typeDefs = gql`
         authors: [String]
         title: String
         description: String
+        image: String
+        link: String
     }
 
     type Query {
@@ -39,6 +43,7 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
         saveBook(bookId: SavedBook!): User
+        deleteBook(bookId: ID!): User
     }
 `;
 
