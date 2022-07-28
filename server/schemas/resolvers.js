@@ -20,13 +20,8 @@ const resolvers = {
     },
     
     Mutation: {
-
         addUser: async (parent, args) => {
-            console.log("hello")
-            let user;
-        try {  user = await User.create(args);}
-        catch(e) {console.log(e)}
-        console.log(user)
+            const user = await User.create(args);
             const token = signToken(user);
 
             return { token, user };
@@ -45,6 +40,7 @@ const resolvers = {
             }
 
             const token = signToken(user);
+
             return { token, user };
         },
         saveBook: async ( parent, { book }, context) => {
@@ -57,8 +53,19 @@ const resolvers = {
                 return updatedUser;
             }
             throw new AuthenticationError('Please login')
-        }
-    }
+        },
+        deleteBook: async ( parent, { bookId }, context ) => {
+            if (context.user) {
+                const updatedUser = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: { bookId }}},
+                    { new: true }
+                );
+                return updatedUser;
+            }
+            throw new AuthenticationError('You must be logged in to delete a book!');
+        },
+    },
 };
 
 module.exports = resolvers;
